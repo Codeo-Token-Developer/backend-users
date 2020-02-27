@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const { checkPass } = require('../helpers/hashPassword');
 const { generateToken } = require('../helpers/jwt');
+const { verifyToken } = require('../helpers/jwt');
 
 class UserController {
 
@@ -32,7 +33,11 @@ class UserController {
                 password
             })
             .then(function(user) {
-                res.status(202).json({message: `Thank you for registering ${name}, please verify your email first`})
+                console.log('Masuk then create')
+                let payload = { name: user.name, email: user.email };
+                req.payload = payload;
+                next();
+                // res.status(202).json({message: `Thank you for registering ${name}, please verify your email first`})
             })
             .catch(next);
         };
@@ -46,12 +51,16 @@ class UserController {
         .then(function (user) {        
             if (user) {
                 if (checkPass(password, user.password)) {
+                   if (user.verification) {
                     let payload = {
                         id: user.id,
                         email: user.email,
                     }
                     let token = generateToken(payload);
                     res.status(201).json({message: `Welcome ${user.name}, hope you have a nice day`, token, user})
+                   }else {
+                       next({message: `Please verify your email first`});
+                   }
                 }else {
                     next({message: 'Invalid email / password'});
                 }
@@ -63,14 +72,13 @@ class UserController {
     };
 
     static updateVerification(req,res,next) {
-        let userId = req.decoded.id;
-        User.updateOne({_id: userId}, {verification: true})
+        let decoded = verifyToken(req.params.token);
+        User.updateOne({email: decoded.email}, {verification: true})
             .then(function () {
-                res.status(201).json({messge: `Your account already verificated`})
+                res.status(200).redirect("https://www.google.com")
             })
             .catch(next);
     };
-
 };
 
 module.exports = UserController;

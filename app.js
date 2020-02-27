@@ -13,7 +13,7 @@ const mainRoute = require('./routes');
 
 //errHandler
 const errHandler = require('./middlewares/errHandler');
-let mongoUri = 'mongodb://localhost/test12';
+let mongoUri = 'mongodb://localhost/test12345';
 // let mongoUri = process.env.MONGO_URI;
 mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
@@ -22,13 +22,11 @@ db.once('open', function() {
   console.log(`Welcome to mongoDb`);
 });
 
-
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.json());
 app.use(mainRoute);
 app.use(errHandler);
-
 
 app.listen(PORT, () => console.log(`Server started on ${PORT}`));
 

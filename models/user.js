@@ -48,11 +48,19 @@ const UserSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   verification: {
       type: Boolean,
       default: false
+  },
+  resetPasswordToken: {
+    type: String,
+    required: false 
+  },
+  resetPasswordExpires: {
+      type: Date,
+      required: false
   }
 })
 
