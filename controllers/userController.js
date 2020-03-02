@@ -75,7 +75,7 @@ class UserController {
         let decoded = verifyToken(req.params.token);
         User.updateOne({email: decoded.email}, {verification: true})
             .then(function () {
-                res.status(200).redirect("https://www.google.com")
+                res.status(200).redirect("http://dapp.codeotoken.com")
             })
             .catch(next);
     };
