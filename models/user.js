@@ -61,6 +61,22 @@ const UserSchema = new mongoose.Schema({
   resetPasswordExpires: {
       type: Date,
       required: false
+  },
+  kyc: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'KYC'
+  },
+  bank_account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BankAccount'
+  },
+  credit_card: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CreditCard'
+  },
+  crypto: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Crypto'
   }
 })
 
