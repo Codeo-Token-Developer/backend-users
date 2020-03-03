@@ -23,8 +23,17 @@ function accountAuthorization(req,res,next) {
             };
         })
         .catch(next);
-}
+};
+
+function authenticationPassword(req,res,next) {
+    let token = req.params.token;
+    let decoded = verifyToken(token);
+    req.decoded = decoded;
+    next();
+};
 
 module.exports = {
-    authentification
+    authentification,
+    accountAuthorization,
+    authenticationPassword
 };

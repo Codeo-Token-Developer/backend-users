@@ -2,6 +2,7 @@ const User = require('../models/user');
 const { checkPass } = require('../helpers/hashPassword');
 const { generateToken } = require('../helpers/jwt');
 const { verifyToken } = require('../helpers/jwt');
+const { hashPass } = require('../helpers/hashPassword');
 
 class UserController {
 
@@ -78,6 +79,42 @@ class UserController {
                 res.status(200).redirect("http://dapp.codeotoken.com")
             })
             .catch(next);
+    };
+
+    static updatePassword(req,res,next) {
+        let { email } = req.body;
+        console.log(req.body, 'masuk controller')
+        User.findOne({email})
+            .then(function (user) {
+                if (user) {
+                    console.log(user)
+                    let token = generateToken({id: user.id});
+                    req.token = token;
+                    req.updateUser = user;
+                    next();
+                }else {
+                    next({message: 'Email not found'})
+                }
+            })
+            .catch(next)
+    };
+
+    static replacePassword(req,res,next) {
+        let userId = req.decoded.id;
+        let { password } = req.body;
+        User.findOne({_id: userId})
+            .then(function (user) {
+                if (user) { 
+                    let hashValue = hashPass(password);
+                    return User.updateOne({_id: userId}, {password: hashValue})
+                        .then(function () {
+                            res.status(200).redirect("http://dapp.codeotoken.com")
+                        })
+                }else {
+                    next({message: 'Users Not found'})
+                }
+            })
+            .catch(next)
     };
 };
 
