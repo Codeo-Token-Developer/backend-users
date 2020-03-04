@@ -40,10 +40,14 @@ const kycSchema = new mongoose.Schema({
    user: {
        type: mongoose.Schema.Types.ObjectId,
        ref: 'User'
+   },
+   approved: {
+       type: Boolean,
+       default: false
    }
 })
 
 
 const kyc = mongoose.model('KYC', kycSchema);
 
-module.exports
+module.exports = kyc;

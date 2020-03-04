@@ -7,13 +7,15 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = process.env.PORT;
+const morgan = require('morgan');
 
 //Router
 const mainRoute = require('./routes');
 
 //errHandler
 const errHandler = require('./middlewares/errHandler');
-// let mongoUri = 'mongodb://localhost/test12345';
+
+// let mongoUri = 'mongodb://localhost/codeo-test-number2';
 let mongoUri = process.env.MONGO_URI;
 mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
@@ -22,6 +24,7 @@ db.once('open', function() {
   console.log(`Welcome to mongoDb`);
 });
 
+app.use(morgan('combined'))
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.json());

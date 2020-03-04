@@ -18,7 +18,7 @@ class AccountController {
     let userId = req.decoded.id;
     Account.findOne({user: userId})
       .then(function (account) {
-        res.status(200).json(account)
+        res.status(200).json({account, status: 200})
       })
       .catch(next);
   };
@@ -28,7 +28,7 @@ class AccountController {
     Account.findOne({user: userId})
       .then(function (account) {
         let eth = account.ETH;
-        res.status(200).json({eth})
+        res.status(200).json({eth, status: 200})
       })
       .catch(next)
   };
@@ -61,7 +61,7 @@ class AccountController {
             userAccount = account;
             return User.updateOne({_id: userId}, {account: userAccount.id})
               .then(function() {
-                  res.status(202).json({message: 'Your account has been created', userAccount})  
+                  res.status(202).json({message: 'Your account has been created', userAccount, status: 202})  
               })
           })
         };

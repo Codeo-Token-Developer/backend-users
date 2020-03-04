@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const accountHistorySchema = new mongoose.Schema ({
 
     date: {

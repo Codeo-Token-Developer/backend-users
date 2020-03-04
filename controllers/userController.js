@@ -9,7 +9,7 @@ class UserController {
     static readAll(req,res,next) {
         User.find({}).populate('account')
             .then(function (users) {
-                res.status(200).json(users);
+                res.status(200).json({users, status: 200});
             })
             .catch(next);
     };
@@ -18,7 +18,7 @@ class UserController {
         let userId = req.decoded.id;
         User.findOne({_id: userId}).populate('account')
             .then(function (user) {
-                res.status(200).json(user);
+                res.status(200).json({user, status: 200});
             })
             .catch(next);
     };
@@ -34,11 +34,9 @@ class UserController {
                 password
             })
             .then(function(user) {
-                console.log('Masuk then create')
                 let payload = { name: user.name, email: user.email };
                 req.payload = payload;
                 next();
-                // res.status(202).json({message: `Thank you for registering ${name}, please verify your email first`})
             })
             .catch(next);
         };
@@ -58,7 +56,8 @@ class UserController {
                         email: user.email,
                     }
                     let token = generateToken(payload);
-                    res.status(201).json({message: `Welcome ${user.name}, hope you have a nice day`, token, user})
+            
+                    res.status(201).json({message: `Welcome ${user.name}, hope you have a nice day`, token, user, status: 201})
                    }else {
                        next({message: `Please verify your email first`});
                    }
@@ -83,11 +82,9 @@ class UserController {
 
     static updatePassword(req,res,next) {
         let { email } = req.body;
-        console.log(req.body, 'masuk controller')
         User.findOne({email})
             .then(function (user) {
                 if (user) {
-                    console.log(user)
                     let token = generateToken({id: user.id});
                     req.token = token;
                     req.updateUser = user;
@@ -116,6 +113,54 @@ class UserController {
             })
             .catch(next)
     };
+
+    static updateUserData(req,res,next) {
+        let userId = req.decoded.id;
+        let { name, email, avatar,  id_country} = req.body;
+        User.updateOne({_id: userId}, {name, email, avatar, id_country}, {omitUndefined: true})
+            .then(function () {
+                res.status(201).json({message: 'Your data has been updated', status: 201})
+            })
+            .catch(next);
+    };
+
+    static changePassword(req,res,next) {
+        let { oldPassword, newPassword } = req.body;
+        let userId = req.decoded.id;
+        User.findOne({_id: userId})
+            .then(function (user) {
+                if (user) {
+                    if (checkPass(oldPassword, user.password)) {
+                        let hashing = hashPass(newPassword);
+                        req.user = user;
+                        req.hashing = hashing;
+                        let payload = {
+                            id: user.id
+                        };
+                        req.token = generateToken(payload);
+                        next();
+                    }else {
+                        next({message: 'Your old password didnt match with current password'})
+                    }
+                }else {
+                    next({message: 'User not found'})
+                }
+            })
+            .catch(next)
+    };
+
+
+    static updateNewPassword(req,res,next) {
+        
+        let hash = req.params.hashing;
+        let userId = req.decoded.id;
+        User.findOne({_id: userId}, {password: hash})
+            .then(function () { 
+                res.status(200).redirect("http://dapp.codeotoken.com")
+            })
+            .then(next);
+    };
+
 };
 
 module.exports = UserController;

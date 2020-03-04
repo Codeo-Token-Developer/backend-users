@@ -4,6 +4,16 @@ const User = require('../models/user');
 
 class KycController {
 
+    static readAll(req,res,next) {
+        
+        KYC.find({})
+            .then(function(kycs) {
+                res.status(200).json({kycs, status: 200})
+            })
+            .catch(next);
+    
+    };
+
     static create(req,res,next) {
 
         let userId = req.decoded.id;
@@ -44,7 +54,8 @@ class KycController {
 
     static updateKyc(req,res,next) {
 
-        let kycId = req.kycId;
+        let kycId = req.params.kycId;
+        
 
         let { id_number,
             document_type,
@@ -72,8 +83,6 @@ class KycController {
                 res.status(201).json({message: 'Your data has been updated', status: 201})
             })
             .catch(next)
-
-
     };
 
 
