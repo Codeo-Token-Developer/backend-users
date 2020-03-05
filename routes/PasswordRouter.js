@@ -29,10 +29,14 @@ const userChecking = (req,res,next) => {
         .catch(next);
 };
 
-
+const changePassword = (req,res,next) => {
+    let userId = req.params.userId;
+    res.redirect("http://www.google.com");
+};
 
 Router.get('/forgotPassword/:userId',authenticate);
-Router.get('/changePassword/:userId' )
+Router.get('/changePassword/:userId', userChecking, passwordController.updateChangePassword);
 Router.post('/:userId',userChecking, passwordController.updateForgotPassword )
+
 
 module.exports = Router;

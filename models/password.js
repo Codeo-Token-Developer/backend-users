@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {  } = require('../helpers/hashPassword');
+const { hashPass } = require('../helpers/hashPassword');
 
 const passwordSchema = new mongoose.Schema({
     password: {

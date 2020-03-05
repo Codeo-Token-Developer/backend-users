@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { checkPass } = require('../helpers/hashPassword');
+const { checkPass, hashPass } = require('../helpers/hashPassword');
 const { generateToken } = require('../helpers/jwt');
 const { verifyToken } = require('../helpers/jwt');
 const Password = require('../models/password');
@@ -113,14 +113,25 @@ class UserController {
         User.findOne({_id: userId})
             .then(function (user) {
                 req.user = user;
-                let check = checkPass(newPassword, user.password);
+                let check = checkPass(oldPassword, user.password);
                 if (check) {
-                    return Password.create({user: userId, password: oldPassword})
+                    return Password.findOne({user: userId})
                         .then(function (password) {
-                            next();
+                            let pass = newPassword
+                            if (password) {
+                                return Password.updateOne({_id: userId}, {password: pass})
+                                    .then(function () {
+                                        next();
+                                    })
+                            }else { 
+                                return Password.create({password: pass, user: userId})
+                                    .then(function() {
+                                        next();
+                                    })
+                            }
                         })
                 }else {
-
+                    next({message: 'Old Password didnt match with password'})
                 }
             })
             .catch(next);
