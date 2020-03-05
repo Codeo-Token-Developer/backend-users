@@ -80,7 +80,7 @@ class UserController {
             .catch(next);
     };
 
-    static updatePassword(req,res,next) {
+    static forgotPassword(req,res,next) {
         let { email } = req.body;
         User.findOne({email})
             .then(function (user) {
@@ -96,23 +96,23 @@ class UserController {
             .catch(next)
     };
 
-    static replacePassword(req,res,next) {
-        let userId = req.decoded.id;
-        let { password } = req.body;
-        User.findOne({_id: userId})
-            .then(function (user) {
-                if (user) { 
-                    let hashValue = hashPass(password);
-                    return User.updateOne({_id: userId}, {password: hashValue})
-                        .then(function () {
-                            res.status(200).redirect("http://dapp.codeotoken.com")
-                        })
-                }else {
-                    next({message: 'Users Not found'})
-                }
-            })
-            .catch(next)
-    };
+    // static replacePassword(req,res,next) {
+    //     let userId = req.decoded.id;
+    //     let { password } = req.body;
+    //     User.findOne({_id: userId})
+    //         .then(function (user) {
+    //             if (user) { 
+    //                 let hashValue = hashPass(password);
+    //                 return User.updateOne({_id: userId}, {password: hashValue})
+    //                     .then(function () {
+    //                         res.status(200).redirect("http://dapp.codeotoken.com")
+    //                     })
+    //             }else {
+    //                 next({message: 'Users Not found'})
+    //             }
+    //         })
+    //         .catch(next)
+    // };
 
     static updateUserData(req,res,next) {
         let userId = req.decoded.id;
@@ -124,42 +124,42 @@ class UserController {
             .catch(next);
     };
 
-    static changePassword(req,res,next) {
-        let { oldPassword, newPassword } = req.body;
-        let userId = req.decoded.id;
-        User.findOne({_id: userId})
-            .then(function (user) {
-                if (user) {
-                    if (checkPass(oldPassword, user.password)) {
-                        let hashing = hashPass(newPassword);
-                        req.user = user;
-                        req.hashing = hashing;
-                        let payload = {
-                            id: user.id
-                        };
-                        req.token = generateToken(payload);
-                        next();
-                    }else {
-                        next({message: 'Your old password didnt match with current password'})
-                    }
-                }else {
-                    next({message: 'User not found'})
-                }
-            })
-            .catch(next)
-    };
+    // static changePassword(req,res,next) {
+    //     let { oldPassword, newPassword } = req.body;
+    //     let userId = req.decoded.id;
+    //     User.findOne({_id: userId})
+    //         .then(function (user) {
+    //             if (user) {
+    //                 if (checkPass(oldPassword, user.password)) {
+    //                     let hashing = hashPass(newPassword);
+    //                     req.user = user;
+    //                     req.hashing = hashing;
+    //                     let payload = {
+    //                         id: user.id
+    //                     };
+    //                     req.token = generateToken(payload);
+    //                     next();
+    //                 }else {
+    //                     next({message: 'Your old password didnt match with current password'})
+    //                 }
+    //             }else {
+    //                 next({message: 'User not found'})
+    //             }
+    //         })
+    //         .catch(next)
+    // };
 
 
-    static updateNewPassword(req,res,next) {
+    // static updateNewPassword(req,res,next) {
         
-        let hash = req.params.hashing;
-        let userId = req.decoded.id;
-        User.findOne({_id: userId}, {password: hash})
-            .then(function () { 
-                res.status(200).redirect("http://dapp.codeotoken.com")
-            })
-            .then(next);
-    };
+    //     let hash = req.params.hashing;
+    //     let userId = req.decoded.id;
+    //     User.findOne({_id: userId}, {password: hash})
+    //         .then(function () { 
+    //             res.status(200).redirect("http://dapp.codeotoken.com")
+    //         })
+    //         .then(next);
+    // };
 
 };
 

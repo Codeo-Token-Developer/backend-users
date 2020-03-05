@@ -4,7 +4,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 function sendEmail(req,res,next) {
     let user = req.updateUser;
     let token = req.token;
-    let link = `http://${req.headers.host}/api/auth/password/${token}`;
+    let link = `http://${req.headers.host}/api/auth/password/forgotPassword/${user.id}`;
     const mailOptions = {
         to: user.email,
         from: process.env.FROM_EMAIL,
