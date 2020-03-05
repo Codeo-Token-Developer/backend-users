@@ -77,6 +77,10 @@ const UserSchema = new mongoose.Schema({
   crypto: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Crypto'
+  },
+  approval_verified: {
+    type: Boolean,
+    default: false
   }
 })
 
