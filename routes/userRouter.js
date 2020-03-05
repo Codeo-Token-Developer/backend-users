@@ -12,7 +12,7 @@ Router.post('/', UserController.create, sendEmail);
 Router.post('/login', UserController.login);
 Router.put('/', authentification, accountAuthorization, UserController.updateUserData);
 Router.post('/forgotPassword', UserController.forgotPassword, sendMailForgotPassword);
-
+Router.post('/changePassword', authentification,accountAuthorization,UserController.changePassword, )
 
 module.exports = Router;
 

@@ -27,10 +27,12 @@ const userChecking = (req,res,next) => {
             }
         })
         .catch(next);
-}; 
+};
+
+
 
 Router.get('/forgotPassword/:userId',authenticate);
+Router.get('/changePassword/:userId' )
 Router.post('/:userId',userChecking, passwordController.updateForgotPassword )
-
 
 module.exports = Router;

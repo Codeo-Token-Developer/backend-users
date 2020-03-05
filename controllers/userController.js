@@ -2,7 +2,8 @@ const User = require('../models/user');
 const { checkPass } = require('../helpers/hashPassword');
 const { generateToken } = require('../helpers/jwt');
 const { verifyToken } = require('../helpers/jwt');
-const { hashPass } = require('../helpers/hashPassword');
+const Password = require('../models/password');
+
 
 class UserController {
 
@@ -96,30 +97,31 @@ class UserController {
             .catch(next)
     };
 
-    // static replacePassword(req,res,next) {
-    //     let userId = req.decoded.id;
-    //     let { password } = req.body;
-    //     User.findOne({_id: userId})
-    //         .then(function (user) {
-    //             if (user) { 
-    //                 let hashValue = hashPass(password);
-    //                 return User.updateOne({_id: userId}, {password: hashValue})
-    //                     .then(function () {
-    //                         res.status(200).redirect("http://dapp.codeotoken.com")
-    //                     })
-    //             }else {
-    //                 next({message: 'Users Not found'})
-    //             }
-    //         })
-    //         .catch(next)
-    // };
-
     static updateUserData(req,res,next) {
         let userId = req.decoded.id;
         let { name, email, avatar,  id_country} = req.body;
         User.updateOne({_id: userId}, {name, email, avatar, id_country}, {omitUndefined: true})
             .then(function () {
                 res.status(201).json({message: 'Your data has been updated', status: 201})
+            })
+            .catch(next);
+    };
+
+    static changePassword(req,res,next) {
+        let { oldPassword, newPassword } = req.body;
+        let userId = req.decoded.id;
+        User.findOne({_id: userId})
+            .then(function (user) {
+                req.user = user;
+                let check = checkPass(newPassword, user.password);
+                if (check) {
+                    return Password.create({user: userId, password: oldPassword})
+                        .then(function (password) {
+                            next();
+                        })
+                }else {
+
+                }
             })
             .catch(next);
     };
