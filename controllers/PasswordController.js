@@ -12,7 +12,7 @@ class PasswordController {
 
         User.updateOne({_id: userId}, {password: hashing})
             .then(function() {
-                res.status(201).redirect('http://dapp.codeotoken.com')
+                res.redirect('http://dapp.codeotoken.com')
             })
             .catch(next)
     };
