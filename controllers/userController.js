@@ -137,42 +137,6 @@ class UserController {
             .catch(next);
     };
 
-    // static changePassword(req,res,next) {
-    //     let { oldPassword, newPassword } = req.body;
-    //     let userId = req.decoded.id;
-    //     User.findOne({_id: userId})
-    //         .then(function (user) {
-    //             if (user) {
-    //                 if (checkPass(oldPassword, user.password)) {
-    //                     let hashing = hashPass(newPassword);
-    //                     req.user = user;
-    //                     req.hashing = hashing;
-    //                     let payload = {
-    //                         id: user.id
-    //                     };
-    //                     req.token = generateToken(payload);
-    //                     next();
-    //                 }else {
-    //                     next({message: 'Your old password didnt match with current password'})
-    //                 }
-    //             }else {
-    //                 next({message: 'User not found'})
-    //             }
-    //         })
-    //         .catch(next)
-    // };
-
-
-    // static updateNewPassword(req,res,next) {
-        
-    //     let hash = req.params.hashing;
-    //     let userId = req.decoded.id;
-    //     User.findOne({_id: userId}, {password: hash})
-    //         .then(function () { 
-    //             res.status(200).redirect("http://dapp.codeotoken.com")
-    //         })
-    //         .then(next);
-    // };
 
 };
 

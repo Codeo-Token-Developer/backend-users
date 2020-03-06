@@ -105,7 +105,9 @@ data/body: {
 Success: 
 
 ```
-"It will send an verification email to user email"
+{
+	"message": "A verification email has been sent to <user email>"
+}
 ```
 
 Error:
@@ -133,7 +135,40 @@ data/body: {
 Success:
 
 ```
-It will redirect to 'http://dapp.codeotoken.com'
+{
+	"message": "Password has been changed"
+}
+```
+
+
+
+##### <u>Update **Password**</u>
+
+Required: 
+
+```
+path: '/users/changePassword',
+method: 'POST',
+data/body: {
+	oldPassword,
+	newPassword
+}
+```
+
+Success:
+
+```
+{
+	"message": "A verification email has been sent to <user 				email>"
+}
+```
+
+Error: 
+
+```
+{
+	"message": "Email not found"
+}
 ```
 
 
@@ -201,51 +236,6 @@ Error example:
 	"message": "Account not found"
 }
 ```
-
-
-
-##### <u>Forgot Password</u>
-
-Required:
-
-```
-path: '/users/forgotPassword/',
-method: 'POST',
-data/body: {
-	email
-}
-```
-
-Success output example:
-
-```
-{
-  "message": "A verification email has been sent to 					test@gmail.com",
-  "status": 200
-}
-```
-
-Error output example:
-
-```
-{
-  "message": "Email not found",
-  "status": 500
-}
-```
-
-
-
-##### <u>Reset Password from Forgot Password</u>
-
-Required: 
-
-```
-path: '/api/auth/password/',
-
-```
-
-
 
 
 
