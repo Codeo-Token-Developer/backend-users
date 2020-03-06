@@ -126,6 +126,8 @@ method: 'GET',
 data/body: {
 	newPassword
 }
+
+*note: You can get userId from params;
 ```
 
 Success:
