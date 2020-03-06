@@ -129,7 +129,7 @@ data/body: {
 	newPassword
 }
 
-*note: You can get userId from params;
+*note: You can get userId from params that send from server
 ```
 
 Success:
