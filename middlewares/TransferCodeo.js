@@ -1,5 +1,7 @@
 const Web3 = require("web3");
 const Tx = require("ethereumjs-tx");
+const TransactionHistory = require("../models/TransactionHistory");
+const TransactionId = process.env.TRANSACTION_ID;
 
 var web3js = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
 
@@ -570,7 +572,16 @@ function TransferCodeo(req, res, next) {
               function(error, events) {
                 if (error) {
                 } else {
-                  console.log(events);
+                  TransactionHistory.updateOne(
+                    { _id: TransactionId },
+                    { transactions: events }
+                  )
+                    .then(function() {
+                      console.log("Trasaction has been updated");
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
                 }
               }
             );
