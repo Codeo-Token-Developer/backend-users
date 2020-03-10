@@ -288,6 +288,203 @@ Success example output:
 }
 ```
 
+## **<u>KYC</u>**
+
+
+
+**Create**
+
+Required: 
+
+```
+path: '/kyc',
+method: 'POST',
+headers: {
+	jwttoken : localStorage.getItem('codeoToken')
+},
+data/body: {
+	id_number,
+	document_type,
+	country_issued,
+	document_image,
+	home_address,
+	city,
+	zip_code,
+	phone_number1,
+	phone_number2
+}
+
+```
+
+Success Output example:
+
+```
+{
+  "message": "Waiting for approval from our admin",
+  "status": 202
+}
+```
+
+Error Output example: 
+
+```
+{
+	"message": "ID Number cannot be empty"
+}
+```
+
+
+
+### **<u>BANK ACCOUNT</u>**
+
+#### **Create**
+
+Required: 
+
+```
+path: '/bankAccount/',
+method: 'POST',
+headers: {
+	jwttoken
+}
+data/body: {
+	bank_name,
+	country,
+	swift_code,
+	account_holder_name,
+	accout_number
+}
+```
+
+Success Output example:
+
+```
+{
+  "message": "Waiting approval our admin"
+}
+```
+
+Error Output example:
+
+```
+1.	
+    {
+        "message" : "Bank Name cannot be emty"
+    }
+2. 
+	{
+  "	message": "You already sumbit your bank account 					information",
+ 	 "status": 500
+	}
+```
+
+### **<u>CRYPTO</u>**
+
+#### **Create**
+
+Required: 
+
+```
+path: '/crypto/',
+method: 'POST',
+headers: {
+	jwttoken
+}
+data/body: {
+	paypal_email,
+	address_bitcoin,
+	address_ethereum
+}
+```
+
+Success output example:
+
+```
+{
+  "cryptos": [
+    {
+      "_id": "5e671a0cb1d0072760d0b106",
+      "paypal_email": "laskarksatria266@gmail.com",
+      "address_bitcoin": "0812445678",
+      "__v": 0
+    }
+  ],
+  "status": 200
+}
+```
+
+Error output example:
+
+```
+{
+	"message": "Paypal email cannot be empty"
+}
+```
+
+
+
+### **<u>CREDIT CARD</u>**
+
+
+
+Required: 
+
+```
+path: '/credit-card',
+method: 'POST',
+headers: {
+	jwttoken
+},
+data: {
+	name,
+	surname,
+	card_name,
+	exp_date => data type: Date,
+	cvc,
+	card_number => data type: Number
+}
+```
+
+Success output example:
+
+```
+{
+  "message": "Waiting for admin approval",
+  "status": 202
+}
+```
+
+Error output example:
+
+```
+{
+  "message": "Name cannot be empty",
+  "status": 400
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
