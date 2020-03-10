@@ -1,10 +1,12 @@
-const express = require('express');
+const express = require("express");
 const Router = express.Router();
-const TransferController = require('../controllers/TransferCodeo');
-const TransferCodeo = require('../middlewares/TransferCodeo');
+const TransferController = require("../controllers/TransferCodeo");
+const TransferCodeo = require("../middlewares/TransferCodeo");
 
-const { authentification } = require('../middlewares/tokenChecking');
+const { authentification } = require("../middlewares/tokenChecking");
 
-Router.post('/',authentification, TransferController.getMyAccount, TransferCodeo);
+// Router.post('/',authentification, TransferController.getMyAccount, TransferCodeo);
+Router.post("/", TransferCodeo, TransferController.updateHistoryTransactions);
+Router.get("/", TransferController.getTransactions);
 
 module.exports = Router;
