@@ -14,9 +14,6 @@ module.exports = (err, req, res, next) =>{
     
     let status = err.status || 500
     let message = err.message || "internal server error"
-    
-    console.log(err);
-
     if(err.name === "ValidationError"){
         message = validationExtractor(err)
         status = 400

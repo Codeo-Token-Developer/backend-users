@@ -43,11 +43,7 @@ class KycController {
             user: userId
         })
         .then(function (kyc) {
-            let kycId = kyc.id;
-            return User.updateOne({_id: userId}, {kyc: kycId})
-                .then(function() {
-                    res.status(202).json({message: 'Your KYC Data has been added', status: 202})
-                })
+            res.status(202).json({message: 'Waiting for approval from our admin', status: 202})
         })
         .catch(next);
     };
@@ -56,7 +52,6 @@ class KycController {
 
         let kycId = req.params.kycId;
         
-
         let { id_number,
             document_type,
             country_issued,

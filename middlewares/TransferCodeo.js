@@ -552,37 +552,16 @@ function TransferCodeo(req,res,next) {
                   if (error) {
                       
                   }else {
-                      console.log(events);
+                      req.myEvents = events;
+                      next();
                   }
                 }
               );
         }); //BALANCE
       })
-      
-    // mytt.methods
-    //   .balanceOf(myAddress)
-    //   .call()
-    //   .then(function(balance) {
-    //     console.log(balance);
-    //   }); //BALANCE
-
-    // mytt.getPastEvents(
-    //   "Transfer",
-    //   {
-    //     fromBlock: 1,
-    //     toBlock: "latest"
-    //   },
-    //   function(error, events) {
-    //     if (error) {
-    //         next(error)
-    //     }else {
-    //         req.myEvents = events;
-    //         next();
-    //     }
-    //   }
-    // );
   });   
 
+  res.status(200).json({message: 'Your request has been process!'})
 
 };
 

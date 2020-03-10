@@ -15,7 +15,7 @@ const kycSchema = new mongoose.Schema({
    },
    document_image: {
        type: String,
-       default: ''
+       required: [true, 'Document image cannot be empty']
    },
    home_address: {
        type: String,
@@ -35,7 +35,6 @@ const kycSchema = new mongoose.Schema({
    },
    phone_number2: {
        type: String,
-       default: ''
    },
    user: {
        type: mongoose.Schema.Types.ObjectId,

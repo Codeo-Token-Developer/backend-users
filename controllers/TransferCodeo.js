@@ -14,21 +14,6 @@ class TransferController {
             .catch(next);
     };
 
-    static updateHistoryTransactions(req,res,next) {
-
-        let events = req.myEvents;
-
-        TransactionHistory.updateOne({_id: transId}, {transactions: events})
-            .then(function () {
-                
-            })
-            .catch(next);
-        
-    };
-
-
-
-
 };
 
 module.exports = TransferController;

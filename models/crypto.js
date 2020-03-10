@@ -4,15 +4,19 @@ const cryptoSchema = new mongoose.Schema ({
 
     paypal_email: {
         type: String,
-        default: ''
+        required: [true, 'Paypal email cannot be empty']
     },
     address_bitcoin: {
         type: String,
-        default: ''
+        required: [true, 'Bitcoin address cannot be empty']
     },
     address_ethereum: {
         type: String,
-        default: ''
+        required: [true, 'Ethereum address cannot be empty']
+    },
+    approved: {
+        type: Boolean,
+        defualt: false
     }
 
 })

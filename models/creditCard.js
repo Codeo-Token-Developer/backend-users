@@ -3,26 +3,31 @@ const mongoose = require('mongoose');
 const creditCardSchema = new mongoose.Schema({
     name: {
         type: String,
-        default: ''
+        required: [true, 'Name cannot be empty']
     },
     surname: {
         type: String,
-        default: ''
+        required: [true, 'Surname cannot be empty']
     },
     card_number: {
         type: String,
-        default: ''
+        required: [true, 'Card number cannot be empty']
     },
     exp_date: {
         type: Date,
+        required: [true, 'Date cannot be emtpy']
     },
     cvc: {
         type: String,
-        default: ''
+        required: [true, 'CVC cannot be empty']
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    approved: {
+        type: Boolean,
+        default: false
     }
 })
 

@@ -8,7 +8,8 @@ const bankAccountRouter = require('./bankAccountRouter');
 const passwordRouter = require('./PasswordRouter');
 const Password = require('../models/password');
 const tranferRouter = require('./TransferRouter');
-
+const creditCardRouter = require('./creditCardRouter');
+const cryptoRouter = require('./cryptoRouter');
 
 Router.use('/users', userRouter);
 Router.use('/accounts', accountUser);
@@ -17,26 +18,7 @@ Router.use('/api/auth/password/', passwordRouter);
 Router.use('/kyc', KYCRouter);
 Router.use('/bankAccount', bankAccountRouter);
 Router.use('/transfer', tranferRouter);
-
-// Router.post('/arrays', function (req,res,next) {
-//     array.create({
-
-//     })
-//         .then(function(arrays) {
-//             res.status(200).json(arrays);
-//         })
-//         .catch(next);
-// })
-
-// Router.get('/arrays', function (req,res,next) {
-//     array.find({})
-//         .then(function (arrays) {
-//             res.status(200).json(arrays)
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-// })
-
+Router.use('/credit-card', creditCardRouter);
+Router.use('/crypto', cryptoRouter);
 
 module.exports = Router;

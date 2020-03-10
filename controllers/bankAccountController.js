@@ -14,17 +14,27 @@ class BankAccoountController {
     static create(req,res,next) {
         let userId = req.decoded.id;
         let { bank_name, country, swift_code, account_holder_name, account_number } = req.body;
-        BankAccount.create({
-            bank_name, country, swift_code, account_holder_name, account_number, user
-        })
-        .then(function (bank) {
-            let bank_account = bank.id;
-            return User.updateOne({_id: userId}, {bank_account})
-                .then(function () {
-                    res.status(202).json({message: 'Your bank account has been added', status: 202})
-                })
-        })
-        .catch(next)
+        BankAccount.findOne({_id: userId})
+            .then(function(bank) {
+                if (bank) {
+                    return BankAccount.create({
+                        bank,_name, country, swift_code, account_holder_name, account_number, user: userId
+                    })
+                    .then(function (bank) {
+                        res.status(202).json({message: 'Waiting approval our admin', status: 202})                        
+                    })
+                }else {
+                    next({message: 'You already sumbit your bank account information'})
+                }
+            })
+            .catch(next)
+        // BankAccount.create({
+        //     bank_name, country, swift_code, account_holder_name, account_number, user: userId
+        // })
+        // .then(function (bank) {
+        //     res.status(200).json({message: 'Waiting approval our admin'})
+        // })
+        // .catch(next)
     };
 
     static update(req,res,next) {

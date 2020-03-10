@@ -16,8 +16,8 @@ const mainRoute = require('./routes');
 const errHandler = require('./middlewares/errHandler');
 
 // let mongoUri = 'mongodb://localhost/codeo-test-number2';
-let mongoUri = process.env.MONGO_URI;
-mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true});
+let mongoUri = process.env.MONGO_URL;
+mongoose.connect("mongodb+srv://admincodeo:codeoerlangga@codeowallet-9952s.gcp.mongodb.net/codeo?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
