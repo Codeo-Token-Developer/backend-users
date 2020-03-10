@@ -6,7 +6,6 @@ const verifyUser = require('./verificationUser');
 const KYCRouter = require('./kycRouter');
 const bankAccountRouter = require('./bankAccountRouter');
 const passwordRouter = require('./PasswordRouter');
-const Password = require('../models/password');
 const tranferRouter = require('./TransferRouter');
 const creditCardRouter = require('./creditCardRouter');
 const cryptoRouter = require('./cryptoRouter');
@@ -20,5 +19,8 @@ Router.use('/bankAccount', bankAccountRouter);
 Router.use('/transfer', tranferRouter);
 Router.use('/credit-card', creditCardRouter);
 Router.use('/crypto', cryptoRouter);
+
+
+
 
 module.exports = Router;

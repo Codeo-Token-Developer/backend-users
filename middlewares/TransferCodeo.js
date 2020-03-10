@@ -6,29 +6,10 @@ const TransactionId = process.env.TRANSACTION_ID;
 var web3js = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
 
 function TransferCodeo(req, res, next) {
-  let { address, myAddress, value } = req.body;
-  //   let PrivateKEY = JSON.parse(JSON.stringify(req.myAccount.key));
-  let PrivateKEY = {
-    version: 3,
-    id: "e1f0e2a7-ff29-4a86-96a0-efb01adb90e7",
-    address: "8f4a0ebea683a7f8fcb60c6530dba0833a26f413",
-    crypto: {
-      ciphertext:
-        "0fcdc32c8379f5fb2d0ce7ddcdca6cc7326344bad122afe61c000d72a7e98d8d",
-      cipherparams: { iv: "4279b783790f60a7109c5c7944465193" },
-      cipher: "aes-128-ctr",
-      kdf: "scrypt",
-      kdfparams: {
-        dklen: 32,
-        salt:
-          "d060d0319fa190c54d6285338d846c7366e1a9e791b635eab4c2b9de940bb302",
-        n: 8192,
-        r: 8,
-        p: 1
-      },
-      mac: "dc0cbc6c938392a0117437721af682080e0078c14c63e5ee69f496a2072ecc1f"
-    }
-  };
+  let { address, value } = req.body;
+  let PrivateKEY = JSON.parse(JSON.stringify(req.myAccount.key));
+  let myAddress = PrivateKEY.address
+  // console.log(req.myAccount)
   let PRIVATE_KEY = web3js.eth.accounts.decrypt(
     PrivateKEY,
     process.env.ENCRYPT
@@ -40,6 +21,9 @@ function TransferCodeo(req, res, next) {
   let privateKey = Buffer.from(PriKey, "hex");
 
   let toAddress = address; // reg.body dari alamat yg di tuju
+
+
+
 
   //contract abi is the array that you can get from the ethereum wallet or etherscan
   let contractABI = [
@@ -531,88 +515,72 @@ function TransferCodeo(req, res, next) {
 
   let count;
   // get transaction count, later will used as nonce
-  web3js.eth.getTransactionCount(myAddress).then(function(v) {
-    console.log("Count: " + v);
-    count = v;
-    let howMuch = Number(value); // from front end how many token
-    let change = howMuch * 1000000;
-    let amoung = (change * 1000000000000).toString();
-    let amount = web3js.utils.toHex(amoung);
-    //creating raw tranaction
-    let rawTransaction = {
-      from: myAddress,
-      gasPrice: web3js.utils.toHex(15 * 1e9),
-      gasLimit: web3js.utils.toHex(40000),
-      to: contractAddress,
-      value: 0,
-      data: mytt.methods.transfer(toAddress, amount).encodeABI(),
-      nonce: web3js.utils.toHex(count)
-    };
-    console.log(rawTransaction);
-    //creating tranaction via ethereumjs-tx
-    let transaction = new Tx(rawTransaction);
-    //signing transaction with private key
-    transaction.sign(privateKey);
-    //sending transacton via web3js module
-    web3js.eth
-      .sendSignedTransaction("0x" + transaction.serialize().toString("hex"))
-      .on("transactionHash", console.log) //transactionHash = MASUK DI FRONT END YANG NOMOR TRANSAKSI
-      .then(function(receipt) {
-        mytt.methods
-          .balanceOf(myAddress)
-          .call()
-          .then(function(balance) {
-            console.log(balance);
-            mytt.getPastEvents(
-              "Transfer",
-              {
-                fromBlock: 1,
-                toBlock: "latest"
-              },
-              function(error, events) {
-                if (error) {
-                } else {
-                  TransactionHistory.updateOne(
-                    { _id: TransactionId },
-                    { transactions: events }
-                  )
-                    .then(function() {
-                      console.log("Trasaction has been updated");
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
-                }
-              }
-            );
-          }); //BALANCE
+
+  const nexting = (req,res,next, Tx) => {
+      web3js.eth.getTransactionCount(myAddress).then(function(v) {
+        // console.log("Count: " + v);
+        count = v;
+        let howMuch = Number(value); // from front end how many token
+        let change = howMuch * 1000000;
+        let amoung = (change * 1000000000000).toString();
+        let amount = web3js.utils.toHex(amoung);
+        //creating raw tranaction
+        let rawTransaction = {
+          from: myAddress,
+          gasPrice: web3js.utils.toHex(15 * 1e9),
+          gasLimit: web3js.utils.toHex(40000),
+          to: contractAddress,
+          value: 0,
+          data: mytt.methods.transfer(toAddress, amount).encodeABI(),
+          nonce: web3js.utils.toHex(count)
+        };
+        console.log(rawTransaction);
+        //creating tranaction via ethereumjs-tx
+        let transaction = new Tx(rawTransaction);
+        //signing transaction with private key
+        transaction.sign(privateKey);
+        //sending transacton via web3js module
+        web3js.eth
+          .sendSignedTransaction("0x" + transaction.serialize().toString("hex"))
+          .on("transactionHash", console.log) //transactionHash = MASUK DI FRONT END YANG NOMOR TRANSAKSI
+          .then(function(receipt) {
+            mytt.methods
+              .balanceOf(myAddress)
+              .call()
+              .then(function(balance) {
+                req.balance = balance;
+                console.log(req.balance);
+                mytt.getPastEvents(
+                  "Transfer",
+                  {
+                    fromBlock: 1,
+                    toBlock: "latest"
+                  },
+                  function(error, events) {
+                    if (error) {
+                    } else {
+                      TransactionHistory.updateOne(
+                        { _id: TransactionId },
+                        { transactions: events }
+                      )
+                        .then(function() {
+                          res.status(202).json({message: 'Keajaiban di dunia fantasi'})
+                        })
+                        .catch(err => {
+                          next(err);
+                        });
+                    }
+                  }
+                );
+              });
+          });
       });
 
-    // mytt.methods
-    //   .balanceOf(myAddress)
-    //   .call()
-    //   .then(function(balance) {
-    //     console.log(balance);
-    //   }); //BALANCE
+  }
+ 
+    nexting(req,res,next, Tx);
 
-    // mytt.getPastEvents(
-    //   "Transfer",
-    //   {
-    //     fromBlock: 1,
-    //     toBlock: "latest"
-    //   },
-    //   function(error, events) {
-    //     if (error) {
-    //         next(error)
-    //     }else {
-    //         req.myEvents = events;
-    //         next();
-    //     }
-    //   }
-    // );
-  });
-
-  res.status(200).json({ message: "Your Request in process!!!" });
+  // res.status(200).json({ message: "Your Request in process!!!" });
 }
 
 module.exports = TransferCodeo;

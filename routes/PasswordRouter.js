@@ -34,6 +34,7 @@ const userChecking = (req,res,next) => {
 
 Router.get('/forgotPassword/:userId',authenticate);
 Router.get('/changePassword/:userId', userChecking, passwordController.updateChangePassword);
+Router.get('/update', authenticate)
 Router.post('/:userId',userChecking, passwordController.updateForgotPassword)
 
 

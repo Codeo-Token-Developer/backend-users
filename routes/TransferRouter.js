@@ -5,8 +5,7 @@ const TransferCodeo = require("../middlewares/TransferCodeo");
 
 const { authentification } = require("../middlewares/tokenChecking");
 
-// Router.post('/',authentification, TransferController.getMyAccount, TransferCodeo);
-Router.post("/", TransferCodeo, TransferController.updateHistoryTransactions);
+Router.post('/',authentification, TransferController.getMyAccount, TransferCodeo);
 Router.get("/", TransferController.getTransactions);
 
 module.exports = Router;

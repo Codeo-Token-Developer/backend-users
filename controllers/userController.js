@@ -4,7 +4,6 @@ const { generateToken } = require('../helpers/jwt');
 const { verifyToken } = require('../helpers/jwt');
 const Password = require('../models/password');
 
-
 class UserController {
 
     static readAll(req,res,next) {
@@ -19,6 +18,7 @@ class UserController {
         let userId = req.decoded.id;
         User.findOne({_id: userId}).populate('account')
             .then(function (user) {
+                console.log(user)
                 res.status(200).json({user, status: 200});
             })
             .catch(next);
@@ -136,7 +136,6 @@ class UserController {
             })
             .catch(next);
     };
-
 
 };
 

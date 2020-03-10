@@ -11,5 +11,4 @@ Router.get('/eth', authentification,AccountController.readMyEth);
 Router.get('/', AccountController.readAll);
 Router.get('/myAccount', authentification,AccountController.readMe);
 
-
 module.exports = Router;
