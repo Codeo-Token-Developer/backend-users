@@ -17,9 +17,6 @@ class PasswordController {
             .catch(next)
     };
 
-
-
-
     static updateChangePassword(req,res,next) {
         let userId= req.params.userId;
         Password.findOne({user: userId})
@@ -35,7 +32,6 @@ class PasswordController {
             })
             .catch(next);
     };
-
 
 };
 

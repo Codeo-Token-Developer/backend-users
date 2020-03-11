@@ -2,15 +2,13 @@ const express = require('express');
 const Router = express.Router();
 const User = require('../models/user');
 const passwordController = require('../controllers/PasswordController');
-const cors = require('cors');
-
 
 const authenticate = (req,res,next) => {
     let userId = req.params.userId;
     User.findOne({_id: userId})
         .then(function (user) {
             if (user) {
-                res.redirect("http://dapp.codeotoken.com/")
+                res.redirect(`http://dapp.codeotoken.com/resetPasswordAuthentication/${userId}`)
             }else {
                 next({message: 'Email not found'})
             }
@@ -30,7 +28,6 @@ const userChecking = (req,res,next) => {
         })
         .catch(next);
 };
-
 
 Router.get('/forgotPassword/:userId',authenticate);
 Router.get('/changePassword/:userId', userChecking, passwordController.updateChangePassword);

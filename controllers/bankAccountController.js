@@ -28,13 +28,6 @@ class BankAccoountController {
                 }
             })
             .catch(next)
-        // BankAccount.create({
-        //     bank_name, country, swift_code, account_holder_name, account_number, user: userId
-        // })
-        // .then(function (bank) {
-        //     res.status(200).json({message: 'Waiting approval our admin'})
-        // })
-        // .catch(next)
     };
 
     static update(req,res,next) {

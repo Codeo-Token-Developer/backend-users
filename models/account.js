@@ -18,6 +18,9 @@ let AccountSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  balance: {
+    type: Number,
   }
 });
 

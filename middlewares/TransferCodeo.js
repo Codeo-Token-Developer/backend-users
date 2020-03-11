@@ -8,7 +8,8 @@ var web3js = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
 function TransferCodeo(req, res, next) {
   let { address, value } = req.body;
   let PrivateKEY = JSON.parse(JSON.stringify(req.myAccount.key));
-  let myAddress = PrivateKEY.address
+  let myAddress = PrivateKEY.address;
+  req.myAddress = myAddress;
   // console.log(req.myAccount)
   let PRIVATE_KEY = web3js.eth.accounts.decrypt(
     PrivateKEY,
@@ -21,9 +22,6 @@ function TransferCodeo(req, res, next) {
   let privateKey = Buffer.from(PriKey, "hex");
 
   let toAddress = address; // reg.body dari alamat yg di tuju
-
-
-
 
   //contract abi is the array that you can get from the ethereum wallet or etherscan
   let contractABI = [
@@ -534,7 +532,7 @@ function TransferCodeo(req, res, next) {
           data: mytt.methods.transfer(toAddress, amount).encodeABI(),
           nonce: web3js.utils.toHex(count)
         };
-        console.log(rawTransaction);
+        // console.log(rawTransaction);
         //creating tranaction via ethereumjs-tx
         let transaction = new Tx(rawTransaction);
         //signing transaction with private key
@@ -548,8 +546,8 @@ function TransferCodeo(req, res, next) {
               .balanceOf(myAddress)
               .call()
               .then(function(balance) {
-                req.balance = balance;
-                console.log(req.balance);
+                req.myBalance = balance;
+                
                 mytt.getPastEvents(
                   "Transfer",
                   {
@@ -559,12 +557,13 @@ function TransferCodeo(req, res, next) {
                   function(error, events) {
                     if (error) {
                     } else {
+                      req.myEvents = events;
                       TransactionHistory.updateOne(
                         { _id: TransactionId },
                         { transactions: events }
                       )
                         .then(function() {
-                          res.status(202).json({message: 'Keajaiban di dunia fantasi'})
+                          next();
                         })
                         .catch(err => {
                           next(err);
@@ -580,7 +579,7 @@ function TransferCodeo(req, res, next) {
  
     nexting(req,res,next, Tx);
 
-  // res.status(200).json({ message: "Your Request in process!!!" });
+  res.status(200).json({ message: "Your Request in process!!!" });
 }
 
 module.exports = TransferCodeo;
