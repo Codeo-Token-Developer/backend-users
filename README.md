@@ -465,9 +465,57 @@ Error output example:
 
 
 
+#### **<u>HISTORY USER</u>**
 
+Required: 
 
+```
+path: '/history/',
+method: 'GET',
+headers: {
+	jwttoken
+}
+```
 
+Success output example: 
+
+```
+{
+  "history": [
+    {
+      "_id": "5e6881347de31c33f4038c40",
+      "transaction_status": true,
+      "value": 1000000000000,
+      "to": "0x6505A7DB04147D52f51B039d7B36b6b8B1e6BB54",
+      "user": "5e6735b32bc2ab089c4ec3e7",
+      "created_at": "2020-03-11T06:12:04.060Z",
+      "updatedAt": "2020-03-11T06:12:04.060Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e688bf1bb130d0908b5d08e",
+      "transaction_status": true,
+      "value": 1000000000000,
+      "to": "0x6505A7DB04147D52f51B039d7B36b6b8B1e6BB54",
+      "user": "5e6735b32bc2ab089c4ec3e7",
+      "created_at": "2020-03-11T06:57:53.690Z",
+      "updatedAt": "2020-03-11T06:57:53.690Z",
+      "__v": 0
+    },
+    {
+      "_id": "5e689180042d2020d470e459",
+      "transaction_status": true,
+      "value": 1000000000000,
+      "to": "0x6505A7DB04147D52f51B039d7B36b6b8B1e6BB54",
+      "user": "5e6735b32bc2ab089c4ec3e7",
+      "created_at": "2020-03-11T07:21:36.092Z",
+      "updatedAt": "2020-03-11T07:21:36.092Z",
+      "__v": 0
+    }
+  ],
+  "status": 200
+}
+```
 
 
 
