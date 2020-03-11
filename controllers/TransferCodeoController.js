@@ -30,14 +30,13 @@ class TransferController {
     let myResult = JSON.parse(JSON.stringify(myNewHistory.returnValues));
 
     AccountHistory.create({      
-      transaction_id: myData.transactionHash,
+      transaction_id: myEvents.transactionHash,
       transaction_status: true,
       value: myResult.value,
       to: myResult.to,
       user: req.decoded.id,})
       .then(function (account) {
         console.log(account);
-        res.status(202).json({message: 'Your request is updated'})
       })
       .catch(next);
 

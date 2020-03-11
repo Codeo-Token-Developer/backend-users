@@ -8,9 +8,9 @@ const authenticate = (req,res,next) => {
     User.findOne({_id: userId})
         .then(function (user) {
             if (user) {
-                res.redirect(`http://dapp.codeotoken.com/resetPasswordAuthentication/${userId}`)
+                res.redirect(`http://dapp.codeotoken.com/resetPasswordAuthentication/${userId}`);
             }else {
-                next({message: 'Email not found'})
+                next({message: 'Email not found'});
             }
         })
         .catch(next);
@@ -31,8 +31,7 @@ const userChecking = (req,res,next) => {
 
 Router.get('/forgotPassword/:userId',authenticate);
 Router.get('/changePassword/:userId', userChecking, passwordController.updateChangePassword);
-Router.get('/update', authenticate)
-Router.post('/:userId',userChecking, passwordController.updateForgotPassword)
-
+Router.get('/update', authenticate);
+Router.post('/:userId',userChecking, passwordController.updateForgotPassword);
 
 module.exports = Router;

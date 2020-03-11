@@ -21,7 +21,6 @@ const accountHistorySchema = new mongoose.Schema ({
 
 },{ timestamps: { createdAt: 'created_at' } });
 
-
 const accountHistory = mongoose.model('AccountHistory', accountHistorySchema);
 
 module.exports = accountHistory;

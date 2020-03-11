@@ -24,7 +24,7 @@ db.once('open', function() {
   console.log(`Welcome to mongoDb`);
 });
 
-// app.use(morgan('combined'))
+app.use(morgan('combined'));
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 app.use(express.json());

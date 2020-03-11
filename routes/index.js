@@ -9,6 +9,7 @@ const passwordRouter = require('./PasswordRouter');
 const tranferRouter = require('./TransferRouter');
 const creditCardRouter = require('./creditCardRouter');
 const cryptoRouter = require('./cryptoRouter');
+const historyRouter = require('./historyRouter');
 
 Router.use('/users', userRouter);
 Router.use('/accounts', accountUser);
@@ -19,5 +20,6 @@ Router.use('/bankAccount', bankAccountRouter);
 Router.use('/transfer', tranferRouter);
 Router.use('/credit-card', creditCardRouter);
 Router.use('/crypto', cryptoRouter);
+Router.use('/history', historyRouter);
 
 module.exports = Router;
