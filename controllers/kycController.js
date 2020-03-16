@@ -30,22 +30,28 @@ class KycController {
             phone_number2,
          } = req.body;
 
-        KYC.create({
-            id_number,
-            document_type,
-            country_issued,
-            document_image,
-            home_address,
-            city,
-            zip_code,
-            phone_number1,
-            phone_number2,
-            user: userId
-        })
-        .then(function (kyc) {
-            res.status(202).json({message: 'Waiting for approval from our admin', status: 202})
-        })
-        .catch(next);
+         KYC.findOne({user: userId})
+            .then(function (kyc) {
+                if (kyc) {
+                    next({message: 'You already registered, waiting for approval'})
+                }else {
+                    return   KYC.create({
+                        id_number,
+                        document_type,
+                        country_issued,
+                        document_image,
+                        home_address,
+                        city,
+                        zip_code,
+                        phone_number1,
+                        phone_number2,
+                        user: userId
+                    })
+                    .then(function (kyc) {
+                        res.status(202).json({message: 'Waiting for approval from our admin', status: 202})
+                    })
+                }
+            }) .catch(next);
     };
 
     static updateKyc(req,res,next) {

@@ -14,6 +14,19 @@ class CryptoController {
     static create(req,res,next) {
         let userId = req.decoded.id;
         let { paypal_email, address_bitcoin, address_ethereum } = req.body;
+        Crypto.findOne({user: userId})
+            .then(function (user) {
+                if (user) {
+                    next({message: 'You already have crypto account, waiting for approval'})
+                }else {
+                   return  Crypto.create({paypal_email, address_ethereum, address_bitcoin, user: userId})
+                    .then(function (crypto) {
+                        res.status(202).json({message: 'Waiting for admin approval', status: 202})
+                    })
+                }
+            })
+            .catch(next);
+
         Crypto.create({paypal_email, address_ethereum, address_bitcoin, user: userId})
             .then(function (crypto) {
                 res.status(202).json({message: 'Waiting for admin approval', status: 202})
