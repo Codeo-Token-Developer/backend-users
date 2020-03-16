@@ -17,6 +17,10 @@ const cryptoSchema = new mongoose.Schema ({
     approved: {
         type: Boolean,
         defualt: false
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     }
 
 })

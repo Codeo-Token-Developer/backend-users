@@ -14,17 +14,17 @@ class BankAccoountController {
     static create(req,res,next) {
         let userId = req.decoded.id;
         let { bank_name, country, swift_code, account_holder_name, account_number } = req.body;
-        BankAccount.findOne({_id: userId})
+        BankAccount.findOne({user: userId})
             .then(function(bank) {
                 if (bank) {
+                    next({message: 'You already submit your bank account information'})
+                }else {
                     return BankAccount.create({
-                        bank,_name, country, swift_code, account_holder_name, account_number, user: userId
+                        bank_name, country, swift_code, account_holder_name, account_number, user: userId
                     })
                     .then(function (bank) {
                         res.status(202).json({message: 'Waiting approval our admin', status: 202})                        
                     })
-                }else {
-                    next({message: 'You already sumbit your bank account information'})
                 }
             })
             .catch(next)
