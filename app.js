@@ -16,7 +16,7 @@ const mainRoute = require('./routes');
 const errHandler = require('./middlewares/errHandler');
 
 // let mongoUri = 'mongodb://localhost/codeo-test-number2';
-let mongoUri = process.env.MONGO_URL;
+let mongoUri = process.env.MONGO_URI;
 mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

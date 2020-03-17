@@ -519,11 +519,32 @@ Success output example:
 
 
 
+#### **<u>TRANSFER CODEO</u>**
 
+Required:
 
+```
+path: '/transfer/',
+method: 'POST'
+headers: {
+	jwttoken
+},
+data: {
+	address, 
+	value
+},
 
+```
 
+Success ouput example:
 
+```
+{
+	"message": "Your Request on process"
+}
+
+*Note: The Result will appear in history
+```
 
 
 

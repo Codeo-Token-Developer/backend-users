@@ -4,7 +4,7 @@ const kyc = require('../models/kyc');
 
 function authentification(req,res,next) {
     if (req.headers.jwttoken) {       
-        const decoded = verifyToken(req.headers.jwttoken)
+        const decoded = verifyToken(req.headers.jwttoken);
         req.decoded = decoded;
         next();
     }else {

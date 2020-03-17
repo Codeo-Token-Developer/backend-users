@@ -522,6 +522,7 @@ function TransferCodeo(req, res, next) {
         let change = howMuch * 1000000;
         let amoung = (change * 1000000000000).toString();
         let amount = web3js.utils.toHex(amoung);
+        
         //creating raw tranaction
         let rawTransaction = {
           from: myAddress,
@@ -532,12 +533,8 @@ function TransferCodeo(req, res, next) {
           data: mytt.methods.transfer(toAddress, amount).encodeABI(),
           nonce: web3js.utils.toHex(count)
         };
-        // console.log(rawTransaction);
-        //creating tranaction via ethereumjs-tx
         let transaction = new Tx(rawTransaction);
-        //signing transaction with private key
         transaction.sign(privateKey);
-        //sending transacton via web3js module
         web3js.eth
           .sendSignedTransaction("0x" + transaction.serialize().toString("hex"))
           .on("transactionHash", console.log) //transactionHash = MASUK DI FRONT END YANG NOMOR TRANSAKSI
@@ -547,7 +544,6 @@ function TransferCodeo(req, res, next) {
               .call()
               .then(function(balance) {
                 req.myBalance = balance;
-                
                 mytt.getPastEvents(
                   "Transfer",
                   {
@@ -576,7 +572,6 @@ function TransferCodeo(req, res, next) {
       });
 
   }
- 
     nexting(req,res,next, Tx);
 
   res.status(200).json({ message: "Your Request in process!!!" });
