@@ -1,6 +1,5 @@
 const Account = require("../models/account");
 const AccountHistory = require('../models/accountHistory');
-const transId = process.env.TRANSACTIONS_DATABASE;
 
 class TransferController {
   static getMyAccount(req, res, next) {
@@ -13,6 +12,11 @@ class TransferController {
       })
       .catch(next);
   }
+
+  static getBalance(req,res,next) {
+    let balance = req.myBalance;
+
+  };
 
   static async getTransactions(req, res, next) {
     

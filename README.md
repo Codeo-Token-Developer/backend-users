@@ -1,7 +1,4 @@
 # USERS & ACCOUNT BACKEND DOCUMENTATION
-
-
-
 ##### <u>Create</u> New User
 
 Required:

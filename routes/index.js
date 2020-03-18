@@ -24,4 +24,16 @@ Router.use('/crypto', cryptoRouter);
 Router.use('/history', historyRouter);
 Router.use('/fee', feeRouter);
 
+const User = require('../models/user');
+const Account = require('../models/account');
+
+Router.delete('/delete/:userId', function (req,res,next) {
+    let userId = req.params.userId;
+    User.deleteOne({_id: userId})
+        .then(function () {
+            res.status(200).json({message: 'User already deleted'})
+        })
+        .catch(err => console.log(err))
+})
+
 module.exports = Router;

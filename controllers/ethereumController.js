@@ -11,7 +11,7 @@ exports.get_new_address = async function (req,res) {
     console.log("*** ETH GET NEW ADDRESS ***");
     let ethData = {};
     try {
-        ethData = await web3.eth.accounts.create();
+        ethData = await web3.eth.accounts.create(web3.utils.randomHex(700));
                   console.table(ethData);
                   ethData.result = ethData.address;
                   ethData.result2= ethData.privateKey
