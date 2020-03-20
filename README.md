@@ -543,6 +543,51 @@ Success ouput example:
 *Note: The Result will appear in history
 ```
 
+#### **<u>2FA</u>**
+
+Required:
+
+```
+path: '/2fa/',
+method: 'PATCH'
+headers: {
+	jwttoken
+},
+
+
+```
+
+Success ouput example:
+
+```
+{
+	"message": 'your 2FA is completed'
+}
+
+```
+
+#### **<u>2FA LOGOUT</u>**
+
+Required:
+
+```
+path: '/2faout/',
+method: 'PATCH'
+headers: {
+	jwttoken
+},
+
+
+```
+
+Success ouput example:
+
+```
+{
+	"message": "your are logout"
+}
+
+```
 
 
 
