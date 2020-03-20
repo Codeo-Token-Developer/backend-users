@@ -24,11 +24,11 @@ class UserController {
     };
 
     static async create(req,res,next) {
-        let { full_name, email, password, confirm_password, reff, username } = req.body;
+        let { full_name, email, password, confirm_password, ref, username } = req.body;
         let newUser = {full_name, email, password, username};
-        if (reff) {
-            let findReff = await User.findOne({username: reff})
-            if (findReff) {
+        if (ref) {
+            let findRef = await User.findOne({username: ref})
+            if (findRef) {
                 newUser.ref = findReff.id
             }else {
                 next({message: 'Username not found'})                
@@ -56,7 +56,6 @@ class UserController {
 
     static login(req,res,next) {
         let { email, password } = req.body;
-        console.log(req.body)
         User.findOne({
             email
         })

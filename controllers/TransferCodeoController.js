@@ -1,5 +1,6 @@
 const Account = require("../models/account");
 const AccountHistory = require('../models/accountHistory');
+const CodeoTransfer = require('../helpers/TransferCodeo.function');
 
 class TransferController {
   static getMyAccount(req, res, next) {
@@ -23,7 +24,6 @@ class TransferController {
     let myHistory = [];
     let myEvents = req.myEvents;
     let myEth = req.myAccount.ETH;
-    
     await myEvents.forEach(function (event) {
       let result = JSON.parse(JSON.stringify(event.returnValues));
       if (result.from === myEth) {
@@ -41,12 +41,32 @@ class TransferController {
       to: myResult.to,
       user: req.decoded.id,})
       .then(function (account) {
-        console.log(account);
+        console.log(account)
+        next();
       })
       .catch(next);
+  };
+
+
+  static async TransferAdmin(req,res,next) {
+    let { adminValue } = req.body;
+    let refValue = req.refValue;
+    let refAccount = req.refAccount;
+    let adminAccount = req.adminAccount;
+    
+    const adminTransfer = await CodeoTransfer(adminAccount.ETH, adminValue, req.myAccount);
+
+    if (refValue) {
+      
+      const refTransfer = await CodeoTransfer(refAccount.ETH, refValue, req.adminAccount);
+      console.log('Success Sending Token')
+    }else {
+      console.log('Ref tidak ada')
+    }
 
     
-  }
+  };
+
 }
 
 module.exports = TransferController;
