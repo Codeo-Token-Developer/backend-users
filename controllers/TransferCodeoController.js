@@ -1,10 +1,11 @@
 const Account = require("../models/account");
 const AccountHistory = require('../models/accountHistory');
-const transId = process.env.TRANSACTIONS_DATABASE;
+const CodeoTransfer = require('../helpers/TransferCodeo.function');
 
 class TransferController {
   static getMyAccount(req, res, next) {
     let userId = req.decoded.id;
+
     Account.findOne({ user: userId })
       .then(function(Account) {
         req.myAccount = Account;
@@ -13,12 +14,15 @@ class TransferController {
       .catch(next);
   }
 
+  static getBalance(req,res,next) {
+    let balance = req.myBalance;
+
+  };
+
   static async getTransactions(req, res, next) {
-    
     let myHistory = [];
     let myEvents = req.myEvents;
     let myEth = req.myAccount.ETH;
-    
     await myEvents.forEach(function (event) {
       let result = JSON.parse(JSON.stringify(event.returnValues));
       if (result.from === myEth) {
@@ -36,12 +40,21 @@ class TransferController {
       to: myResult.to,
       user: req.decoded.id,})
       .then(function (account) {
-        console.log(account);
+        console.log(account)
+        next();
       })
       .catch(next);
+  };
 
-    
-  }
+
+  static async TransferAdmin(req,res,next) {
+    let { adminValue } = req.body;
+    let refAccount = req.refAccount;
+    let adminAccount = req.adminAccount;
+    const adminTransfer = await CodeoTransfer(adminAccount.ETH, adminValue, req.myAccount);
+    console.log('Send to Admin')
+  };
+
 }
 
 module.exports = TransferController;

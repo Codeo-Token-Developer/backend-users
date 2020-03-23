@@ -12,6 +12,7 @@ const bankAccountSchema = new mongoose.Schema({
     swift_code: {
         type: String,
         default: ''
+        
     },
     account_holder_name: {
         type: String,
@@ -24,6 +25,10 @@ const bankAccountSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    approved: {
+        type: Boolean,
+        default: false
     }
 })
 

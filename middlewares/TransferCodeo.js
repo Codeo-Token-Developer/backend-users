@@ -1,16 +1,16 @@
 const Web3 = require("web3");
 const Tx = require("ethereumjs-tx");
 const TransactionHistory = require("../models/TransactionHistory");
-const TransactionId = process.env.TRANSACTION_ID;
+// const TransactionId = process.env.TRANSACTION_ID;
 
 var web3js = new Web3(new Web3.providers.HttpProvider(process.env.INFURA));
 
 function TransferCodeo(req, res, next) {
-  let { address, value } = req.body;
+  let { address, myValue } = req.body;
+  let value = myValue;
   let PrivateKEY = JSON.parse(JSON.stringify(req.myAccount.key));
   let myAddress = PrivateKEY.address;
   req.myAddress = myAddress;
-  // console.log(req.myAccount)
   let PRIVATE_KEY = web3js.eth.accounts.decrypt(
     PrivateKEY,
     process.env.ENCRYPT
@@ -510,34 +510,28 @@ function TransferCodeo(req, res, next) {
 
   //creating contract object
   var mytt = new web3js.eth.Contract(contractABI, contractAddress);
-
   let count;
   // get transaction count, later will used as nonce
 
-  const nexting = (req,res,next, Tx) => {
-      web3js.eth.getTransactionCount(myAddress).then(function(v) {
+  const nexting = async (req,res,next, Tx) => {
+      await web3js.eth.getTransactionCount(myAddress).then(function(v) {
         // console.log("Count: " + v);
         count = v;
         let howMuch = Number(value); // from front end how many token
         let change = howMuch * 1000000;
         let amoung = (change * 1000000000000).toString();
-        let amount = web3js.utils.toHex(amoung);
-        //creating raw tranaction
+        let amount = web3js.utils.toHex(amoung);      
         let rawTransaction = {
           from: myAddress,
-          gasPrice: web3js.utils.toHex(15 * 1e9),
-          gasLimit: web3js.utils.toHex(40000),
+          gasPrice: web3js.utils.toHex(8 * 1e9),
+          gasLimit: web3js.utils.toHex(60000),
           to: contractAddress,
           value: 0,
           data: mytt.methods.transfer(toAddress, amount).encodeABI(),
           nonce: web3js.utils.toHex(count)
         };
-        // console.log(rawTransaction);
-        //creating tranaction via ethereumjs-tx
         let transaction = new Tx(rawTransaction);
-        //signing transaction with private key
         transaction.sign(privateKey);
-        //sending transacton via web3js module
         web3js.eth
           .sendSignedTransaction("0x" + transaction.serialize().toString("hex"))
           .on("transactionHash", console.log) //transactionHash = MASUK DI FRONT END YANG NOMOR TRANSAKSI
@@ -547,7 +541,6 @@ function TransferCodeo(req, res, next) {
               .call()
               .then(function(balance) {
                 req.myBalance = balance;
-                
                 mytt.getPastEvents(
                   "Transfer",
                   {
@@ -556,27 +549,38 @@ function TransferCodeo(req, res, next) {
                   },
                   function(error, events) {
                     if (error) {
+                      console.log(error, 'Ini error')
                     } else {
                       req.myEvents = events;
-                      TransactionHistory.updateOne(
-                        { _id: TransactionId },
-                        { transactions: events }
-                      )
-                        .then(function() {
-                          next();
+                      TransactionHistory.find({})
+                        .then(function (trans) {
+                          
+                          if (trans.length > 0) {
+                            let currentTrans = trans[0]
+                            return TransactionHistory.updateOne({_id: currentTrans.id}, {transactions: events})
+                              .then(function () {
+                                next();
+                              })
+                          }else {
+                            return TransactionHistory.create({transactions: events})
+                              .then(function (history) {
+                                
+                                next();
+                              })
+                          }
                         })
-                        .catch(err => {
-                          next(err);
-                        });
+                        .catch(next)
                     }
                   }
                 );
-              });
-          });
+              })
+              .catch(err => {
+                console.log("hallo" + " " + err, 'This is Error')
+              })
+          })
       });
 
   }
- 
     nexting(req,res,next, Tx);
 
   res.status(200).json({ message: "Your Request in process!!!" });

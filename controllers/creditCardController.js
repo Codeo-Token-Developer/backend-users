@@ -12,11 +12,20 @@ class CreditCardController {
 
     static create(req,res,next) {
         let { name, surname, card_name, exp_date, cvc,card_number } = req.body;
-        CredirCard.create({name, surname, card_name, exp_date, cvc, card_number})
-            .then(function (card) {
-                res.status(202).json({message: 'Waiting for admin approval', status: 202})
-            })  
-            .catch(next);  
+        let userId = req.decoded.id;
+        CredirCard.findOne({user: userId})
+            .then(function (credit) {
+                if (credit) {
+                    next({message: 'You already have registered your credit card, '})
+                }else {
+                    return CredirCard.create({name, surname, card_name, exp_date, cvc, card_number})
+                        .then(function (card) {
+                            res.status(202).json({message: 'Waiting for admin approval', status: 202})
+                        })  
+                }
+            })
+            .catch(next); 
+   
     };
 
     static update(req,res,next) {

@@ -1,7 +1,4 @@
 # USERS & ACCOUNT BACKEND DOCUMENTATION
-
-
-
 ##### <u>Create</u> New User
 
 Required:
@@ -519,14 +516,106 @@ Success output example:
 
 
 
+#### **<u>TRANSFER CODEO</u>**
+
+Required:
+
+```
+path: '/transfer/',
+method: 'POST'
+headers: {
+	jwttoken
+},
+data: {
+	address, 
+	value
+},
+
+```
+
+Success ouput example:
+
+```
+{
+	"message": "Your Request on process"
+}
+
+*Note: The Result will appear in history
+```
+
+#### **<u>2FA</u>**
+
+Required:
+
+```
+path: 'users/2fa/',
+method: 'PATCH'
+headers: {
+	jwttoken
+},
 
 
+```
+
+Success ouput example:
+
+```
+{
+	"message": 'your 2FA is completed'
+}
+
+```
+
+#### **<u>2FA LOGOUT</u>**
+
+Required:
+
+```
+path: 'users/2faout/',
+method: 'PATCH'
+headers: {
+	jwttoken
+},
 
 
+```
+
+Success ouput example:
+
+```
+{
+	"message": "your are logout"
+}
+
+```
+
+#### **<u>2FA LOGOUT</u>**
+
+Required:
+
+```
+path: 'users/transfer/',
+method: 'POST'
+headers: {
+	jwttoken
+},
+data: {
+  adminValue, myValue
+}
 
 
+```
 
+Success ouput example:
 
+```
+{
+	"message": "Your Request in process!!"
+}
+
+*Note: if this process done, it will appear in user history
+
+```
 
 
 

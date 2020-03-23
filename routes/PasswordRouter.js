@@ -8,7 +8,7 @@ const authenticate = (req,res,next) => {
     User.findOne({_id: userId})
         .then(function (user) {
             if (user) {
-                res.redirect(`http://localhost:3000/password/${userId}`);
+                res.redirect(`http://dapp.codeotoken.com/authentication/reset-password/${userId}`);
             }else {
                 next({message: 'Email not found'});
             }
