@@ -548,7 +548,7 @@ Success ouput example:
 Required:
 
 ```
-path: '/2fa/',
+path: 'users/2fa/',
 method: 'PATCH'
 headers: {
 	jwttoken
@@ -571,7 +571,7 @@ Success ouput example:
 Required:
 
 ```
-path: '/2faout/',
+path: 'users/2faout/',
 method: 'PATCH'
 headers: {
 	jwttoken
@@ -589,7 +589,33 @@ Success ouput example:
 
 ```
 
+#### **<u>2FA LOGOUT</u>**
 
+Required:
+
+```
+path: 'users/transfer/',
+method: 'POST'
+headers: {
+	jwttoken
+},
+data: {
+  adminValue, myValue
+}
+
+
+```
+
+Success ouput example:
+
+```
+{
+	"message": "Your Request in process!!"
+}
+
+*Note: if this process done, it will appear in user history
+
+```
 
 
 

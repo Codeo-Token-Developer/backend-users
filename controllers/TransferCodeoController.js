@@ -20,7 +20,6 @@ class TransferController {
   };
 
   static async getTransactions(req, res, next) {
-    
     let myHistory = [];
     let myEvents = req.myEvents;
     let myEth = req.myAccount.ETH;
@@ -50,21 +49,10 @@ class TransferController {
 
   static async TransferAdmin(req,res,next) {
     let { adminValue } = req.body;
-    let refValue = req.refValue;
     let refAccount = req.refAccount;
     let adminAccount = req.adminAccount;
-    
     const adminTransfer = await CodeoTransfer(adminAccount.ETH, adminValue, req.myAccount);
-
-    if (refValue) {
-      
-      const refTransfer = await CodeoTransfer(refAccount.ETH, refValue, req.adminAccount);
-      console.log('Success Sending Token')
-    }else {
-      console.log('Ref tidak ada')
-    }
-
-    
+    console.log('Send to Admin')
   };
 
 }
