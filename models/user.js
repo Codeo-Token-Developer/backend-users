@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { hashPass } = require('../helpers/hashPassword')
+const mongoose = require("mongoose");
+const { hashPass } = require("../helpers/hashPassword");
 
 const UserSchema = new mongoose.Schema({
     full_name: {
@@ -96,15 +96,12 @@ const UserSchema = new mongoose.Schema({
       }
 });
 
-UserSchema.pre('save', function (next) {
-    let pass = this.password;
-    this.password = hashPass(pass);
-    next();
-})
+UserSchema.pre("save", function(next) {
+  let pass = this.password;
+  this.password = hashPass(pass);
+  next();
+});
 
-const user = mongoose.model('User', UserSchema);
+const user = mongoose.model("User", UserSchema);
 
 module.exports = user;
-
-
-

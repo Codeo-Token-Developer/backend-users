@@ -8,6 +8,7 @@ class UserController {
   static readAll(req, res, next) {
     User.find({})
       .populate("account")
+      .populate("loghistory")
       .then(function(users) {
         res.status(200).json({ users, status: 200 });
       })
@@ -18,6 +19,7 @@ class UserController {
     let userId = req.decoded.id;
     User.findOne({ _id: userId })
       .populate("account")
+      .populate("loghistory")
       .then(function(user) {
         res.status(200).json({ user, status: 200 });
       })
@@ -181,12 +183,22 @@ class UserController {
 
   static QrLogout(req, res, next) {
     let userId = req.decoded.id;
-    User.updateOne({ _id: userId }, { approval_verified: false })
+    User.updateOne({ _id: userId }, {approval_verified:false })
       .then(function() {
         res.status(201).json({ message: "your are logout", status: 201 });
       })
       .catch(next);
   }
+
+  static QrLogout(req, res, next) {
+    let userId = req.decoded.id;
+    User.updateOne({ _id: userId }, {approval_verified:false })
+      .then(function() {
+        res.status(201).json({ message: "your are logout", status: 201 });
+      })
+      .catch(next);
+  }
+
 }
 
 module.exports = UserController;
