@@ -11,6 +11,7 @@ const creditCardRouter = require('./creditCardRouter');
 const cryptoRouter = require('./cryptoRouter');
 const historyRouter = require('./historyRouter');
 const feeRouter = require('./feeRouter');
+const logHistory = require('./loghistoryRouter');
 
 Router.use('/users', userRouter);
 Router.use('/accounts', accountUser);
@@ -23,6 +24,8 @@ Router.use('/credit-card', creditCardRouter);
 Router.use('/crypto', cryptoRouter);
 Router.use('/history', historyRouter);
 Router.use('/fee', feeRouter);
+Router.use('/loghistory',logHistory)
+
 // Router.use('/sandbox', require('./sandboxRouter'));
 // Router.use('/sendtx', require('./sendCodeoRouter'));
 module.exports = Router;

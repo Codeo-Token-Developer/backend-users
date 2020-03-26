@@ -1,4 +1,5 @@
 # USERS & ACCOUNT BACKEND DOCUMENTATION
+
 ##### <u>Create</u> New User
 
 Required:
@@ -20,7 +21,7 @@ Success output example:
 }
 ```
 
-Error output example: 
+Error output example:
 
 ```
 {
@@ -29,11 +30,9 @@ Error output example:
 }
 ```
 
-
-
 ##### <u>Login</u>
 
-Required: 
+Required:
 
 ```
 path: '/users/login/',
@@ -75,8 +74,6 @@ Error output example:
 }
 ```
 
-
-
 ##### <u>Verification User</u>
 
 Success:
@@ -84,8 +81,6 @@ Success:
 ```
 redirect to "http://dapp.codeotoken.com"
 ```
-
-
 
 ##### <u>Forgot Password</u>
 
@@ -99,7 +94,7 @@ data/body: {
 }
 ```
 
-Success: 
+Success:
 
 ```
 {
@@ -117,7 +112,7 @@ Error:
 
 ##### **<u>Recovery Password</u>**
 
-Required: 
+Required:
 
 ```
 path: '/api/auth/password/:userId',
@@ -137,11 +132,9 @@ Success:
 }
 ```
 
-
-
 ##### <u>Update **Password**</u>
 
-Required: 
+Required:
 
 ```
 path: '/users/changePassword',
@@ -160,7 +153,7 @@ Success:
 }
 ```
 
-Error: 
+Error:
 
 ```
 {
@@ -168,11 +161,9 @@ Error:
 }
 ```
 
-
-
 ##### <u>Update User Data</u>
 
-Required: 
+Required:
 
 ```
 path: '/',
@@ -185,7 +176,7 @@ data/body: {
 }
 ```
 
-Success output example: 
+Success output example:
 
 ```
 {
@@ -194,11 +185,9 @@ Success output example:
 }
 ```
 
-
-
 ##### <u>Get 1 User</u>
 
-Required: 
+Required:
 
 ```
 path: '/users/account',
@@ -208,7 +197,7 @@ headers: {
 }
 ```
 
-Success example: 
+Success example:
 
 ```
 {
@@ -234,15 +223,11 @@ Error example:
 }
 ```
 
-
-
 ### **ACCOUNT**
-
-
 
 ##### <u>**Create Account**</u>
 
-Required: 
+Required:
 
 ```
 path: '/accounts/newAccount',
@@ -287,11 +272,9 @@ Success example output:
 
 ## **<u>KYC</u>**
 
-
-
 **Create**
 
-Required: 
+Required:
 
 ```
 path: '/kyc',
@@ -322,7 +305,7 @@ Success Output example:
 }
 ```
 
-Error Output example: 
+Error Output example:
 
 ```
 {
@@ -330,13 +313,11 @@ Error Output example:
 }
 ```
 
-
-
 ### **<u>BANK ACCOUNT</u>**
 
 #### **Create**
 
-Required: 
+Required:
 
 ```
 path: '/bankAccount/',
@@ -364,11 +345,11 @@ Success Output example:
 Error Output example:
 
 ```
-1.	
+1.
     {
         "message" : "Bank Name cannot be emty"
     }
-2. 
+2.
 	{
   "	message": "You already sumbit your bank account 					information",
  	 "status": 500
@@ -379,7 +360,7 @@ Error Output example:
 
 #### **Create**
 
-Required: 
+Required:
 
 ```
 path: '/crypto/',
@@ -418,13 +399,9 @@ Error output example:
 }
 ```
 
-
-
 ### **<u>CREDIT CARD</u>**
 
-
-
-Required: 
+Required:
 
 ```
 path: '/credit-card',
@@ -460,11 +437,9 @@ Error output example:
 }
 ```
 
-
-
 #### **<u>HISTORY USER</u>**
 
-Required: 
+Required:
 
 ```
 path: '/history/',
@@ -474,7 +449,7 @@ headers: {
 }
 ```
 
-Success output example: 
+Success output example:
 
 ```
 {
@@ -514,8 +489,6 @@ Success output example:
 }
 ```
 
-
-
 #### **<u>TRANSFER CODEO</u>**
 
 Required:
@@ -527,7 +500,7 @@ headers: {
 	jwttoken
 },
 data: {
-	address, 
+	address,
 	value
 },
 
@@ -595,7 +568,7 @@ Required:
 
 ```
 path: 'users/transfer/',
-method: 'POST'
+method: 'PATCH'
 headers: {
 	jwttoken
 },
@@ -613,42 +586,96 @@ Success ouput example:
 	"message": "Your Request in process!!"
 }
 
-*Note: if this process done, it will appear in user history
 
 ```
 
+#### **<u>ADD LOGIN HISTORY</u>**
+
+Required:
+
+```
+path: "/loghistory/add",
+method: 'POST'
+headers: {
+	jwttoken
+},
+
+EXAMPLE
+
+data: {
+  history : {
+    "ip": "140.213.41.203",
+    "range": [
+    2362777600,
+    2362781695
+    ],
+    "country": "ID",
+    "region": "JK",
+    "eu": "0",
+    "timezone": "Asia/Jakarta",
+    "city": "Jakarta",
+    "ll": [
+    -6.1741,
+    106.8296
+    ],
+    "metro": 0,
+    "area": 20
+  }
+}
+
+```
+
+Success ouput example:
+
+```
+{
+  "message": "history has been add",
+  "status": 202
+}
 
 
+```
+
+#### **<u>GET LOGIN HISTORY</u>**
+
+Required:
+
+```
+path: 'loghistory/myhistory/',
+method: 'GET'
+headers: {
+	jwttoken
+}
 
 
+```
 
+Success ouput example:
 
+```
+{
+  "loghistory":[{
+      "history":{
+      "ip": "140.213.41.203",
+      "range": [
+      2362777600,
+      2362781695
+      ],
+      "country": "ID",
+      "region": "JK",
+      "eu": "0",
+      "timezone": "Asia/Jakarta",
+      "city": "Jakarta",
+      "ll": [
+      -6.1741,
+      106.8296
+      ],
+      "metro": 0,
+      "area": 20
+     },
+    "created_at":time
+  }],
+    "status": 200
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
