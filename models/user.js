@@ -25,11 +25,41 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, 'Email cannot be empty']
+        validate: [{
+            validator: function (email) {
+                return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(email)
+            },
+            message: props => `${props.value} is not valid email format`
+        },
+        {
+            validator: function (value) {
+                return this.model('User').findOne({email: value})
+                .then(function (email) {
+                    if (email) {
+                        return false
+                    }else {
+                        return true
+                    }
+                })
+            },
+            message: props => `${props.value} already taken, please take another one`
+        }
+    ],
+        required: [true, 'Email Cannot be Empty']
     },
     password: {
         type: String,
-        required: [true, 'Password cannot be empty']
+        required: [true, 'Password cannot be empty'],
+        validate: {
+            validator: function (value) {
+                if (value.length < 6) {
+                    return false;
+                }else {
+                    return true;
+                }
+            },
+            message: props => `Password cannot be less than 6 length`
+        }
     },
     avatar: {
         type: String,

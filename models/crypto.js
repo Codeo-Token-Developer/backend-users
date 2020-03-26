@@ -14,13 +14,12 @@ const cryptoSchema = new mongoose.Schema ({
         type: String,
         required: [true, 'Ethereum address cannot be empty']
     },
-    approved: {
+    approved_status: {
         type: Boolean,
-        defualt: false
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'User'
     }
 
 })

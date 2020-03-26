@@ -25,9 +25,8 @@ const creditCardSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    approved: {
+    approved_status: {
         type: Boolean,
-        default: false
     }
 })
 

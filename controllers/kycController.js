@@ -56,7 +56,7 @@ class KycController {
 
     static updateKyc(req,res,next) {
 
-        let kycId = req.params.kycId;
+        let kycId = req.params.userId;
         
         let { id_number,
             document_type,
@@ -69,7 +69,7 @@ class KycController {
             phone_number2
         } = req.body;
 
-        KYC.updateOne({_id: kycId}, {
+        KYC.updateOne({_id: userId}, {
             id_number,
             document_type,
             country_issued,

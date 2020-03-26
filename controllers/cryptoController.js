@@ -20,14 +20,8 @@ class CryptoController {
                     next({message: 'You already have crypto account, waiting for approval'})
                 }else {
                    return  Crypto.create({paypal_email, address_ethereum, address_bitcoin, user: userId})
-                    .then(function (crypto) {
-                        res.status(202).json({message: 'Waiting for admin approval', status: 202})
-                    })
                 }
             })
-            .catch(next);
-
-        Crypto.create({paypal_email, address_ethereum, address_bitcoin, user: userId})
             .then(function (crypto) {
                 res.status(202).json({message: 'Waiting for admin approval', status: 202})
             })
