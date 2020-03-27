@@ -41,7 +41,7 @@ class UserController {
       if (findReff) {
         newUser.ref = findReff.id;
       } else {
-        next({ message: "Username not found" });
+        newUser.ref = undefined;
       }
     }
     if (confirm_password != password) {
@@ -66,7 +66,9 @@ class UserController {
 
   static login(req, res, next) {
     let { email, password } = req.body;
-    console.log(req.body);
+    let fullName = '';
+    
+
     User.findOne({
       email
     })
@@ -78,13 +80,11 @@ class UserController {
                 id: user.id,
                 email: user.email
               };
-              let token = generateToken(payload);
-              res.status(201).json({
-                message: `Welcome ${user.name}, hope you have a nice day`,
-                token,
-                user,
-                status: 201
-              });
+              token = generateToken(payload);
+              logUser = user;
+              fullName = user.full_name;
+              return User.updateOne({_id: user.id}, {isLogin: true})
+
             } else {
               next({ message: `Please verify your email first` });
             }
@@ -94,6 +94,14 @@ class UserController {
         } else {
           next({ message: "Invalid email / password" });
         }
+      })
+      .then(function() {
+        res.status(201).json({
+          message: `Welcome ${fullName}, hope you have a nice day`,
+          token,
+          user: logUser,
+          status: 201
+        });
       })
       .catch(next);
   }
@@ -120,6 +128,7 @@ class UserController {
         } else {
           next({ message: "Email not found" });
         }
+        
       })
       .catch(next);
   }
@@ -190,14 +199,6 @@ class UserController {
       .catch(next);
   }
 
-  static QrLogout(req, res, next) {
-    let userId = req.decoded.id;
-    User.updateOne({ _id: userId }, {approval_verified:false })
-      .then(function() {
-        res.status(201).json({ message: "your are logout", status: 201 });
-      })
-      .catch(next);
-  }
 
 }
 

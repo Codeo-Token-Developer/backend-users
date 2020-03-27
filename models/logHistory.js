@@ -9,7 +9,7 @@ var logHistorySchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+}, {versionKey: false, timestamps: {createdAt: 'created_at'}});
 
 const loghistory = mongoose.model("loghistory", logHistorySchema);
 module.exports = loghistory;

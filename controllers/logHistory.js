@@ -21,6 +21,9 @@ class LogHistory {
       .catch(next);
   }
 
+
+  
+
   static readAll(req, res, next) {
     Loghistory.find({})
       .then(function(loghistory) {
