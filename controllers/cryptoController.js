@@ -28,10 +28,6 @@ class CryptoController {
             .catch(next);
     };
 
-    static update(req,res,next) {
-
-    };
-
 };
 
 module.exports = CryptoController;

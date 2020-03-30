@@ -1,6 +1,5 @@
 const AccountHistory = require('../models/accountHistory');
 
-
 class AccountHistoryController {
 
     static readAll(req,res,next) {

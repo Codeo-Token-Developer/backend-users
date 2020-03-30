@@ -3,11 +3,20 @@ const Router = express.Router();
 const { authentification } = require("../middlewares/tokenChecking");
 
 // Require the controllers
-const AccountController = require("../controllers/logHistory");
+const { logHistory } = require('../controllers/userController')
+
+const history = require('../models/logHistory');
 
 // create a new accounts
-Router.post("/add", authentification, AccountController.addHistory);
+Router.post("/", authentification, AccountController.addHistory);
 Router.get("/", AccountController.readAll);
-Router.get("/myhistory", authentification, AccountController.readOne);
+Router.get("/myLogHistory", authentification, function (req,res,next) {
+    let user = req.decoded.id;
+    history.find({user})
+        .then(function (myHistorys) {
+            res.status(200).json(myHistorys)
+        })
+        .catch(next);
+});
 
 module.exports = Router;

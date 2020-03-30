@@ -531,7 +531,7 @@ function TransferCodeo(req, res, next) {
           nonce: web3js.utils.toHex(count)
         };
         let transaction = new Tx(rawTransaction);
-        transaction.sign(privateKey);
+        transaction.sign(privateKey)
         web3js.eth
           .sendSignedTransaction("0x" + transaction.serialize().toString("hex"))
           .on("transactionHash", console.log) //transactionHash = MASUK DI FRONT END YANG NOMOR TRANSAKSI

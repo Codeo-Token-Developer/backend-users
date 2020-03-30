@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bankAccountSchema = new mongoose.Schema({
     bank_name: {
         type: String,
-        default: ''
+        required: [true, 'Bank name cannot be empty']
     },
     country: {
         type: String,

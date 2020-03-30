@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const { hashPass } = require('../helpers/hashPassword');
 const Password = require('../models/password');
-const cors = require('cors');
+
 
 class PasswordController {
 

@@ -24,7 +24,7 @@ Router.use('/credit-card', creditCardRouter);
 Router.use('/crypto', cryptoRouter);
 Router.use('/history', historyRouter);
 Router.use('/fee', feeRouter);
-Router.use('/loghistory',logHistory)
+Router.use('/logHistory',logHistory);
 
 // Router.use('/sandbox', require('./sandboxRouter'));
 // Router.use('/sendtx', require('./sendCodeoRouter'));

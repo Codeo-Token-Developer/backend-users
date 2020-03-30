@@ -67,7 +67,7 @@ class UserController {
   static login(req, res, next) {
     let { email, password } = req.body;
     let fullName = '';
-    
+    let token, logUser;
 
     User.findOne({
       email
@@ -97,7 +97,7 @@ class UserController {
       })
       .then(function() {
         res.status(201).json({
-          message: `Welcome ${fullName}, hope you have a nice day`,
+          message: `Welcome ${logUser.full_name}, hope you have a nice day`,
           token,
           user: logUser,
           status: 201
@@ -199,6 +199,15 @@ class UserController {
       .catch(next);
   }
 
+  static logHistory(req,res,next) {
+    let userId = req.decoded.id;
+    let { ip, range, country, region, eu, timezone, city, ll, metro, area } = req.body.ipad;
+    LogHistory.create({ip, range, country, region, eu, timezone, city, ll, metro, area, user: userId})
+        .then(function (logs) {
+            res.status(202).json({logs, status: 202})
+        })
+        .catch(next)
+};
 
 }
 
