@@ -589,38 +589,19 @@ Success ouput example:
 
 ```
 
+
 #### **<u>ADD LOGIN HISTORY</u>**
 
 Required:
 
 ```
-path: "/loghistory/add",
+path: "/logHistory",
 method: 'POST'
 headers: {
 	jwttoken
 },
-
-EXAMPLE
-
 data: {
-  history : {
-    "ip": "140.213.41.203",
-    "range": [
-    2362777600,
-    2362781695
-    ],
-    "country": "ID",
-    "region": "JK",
-    "eu": "0",
-    "timezone": "Asia/Jakarta",
-    "city": "Jakarta",
-    "ll": [
-    -6.1741,
-    106.8296
-    ],
-    "metro": 0,
-    "area": 20
-  }
+  ipad: <data that get from api>
 }
 
 ```
@@ -629,53 +610,9 @@ Success ouput example:
 
 ```
 {
-  "message": "history has been add",
+  "logs": <data from server>,
   "status": 202
 }
 
-
-```
-
-#### **<u>GET LOGIN HISTORY</u>**
-
-Required:
-
-```
-path: 'loghistory/myhistory/',
-method: 'GET'
-headers: {
-	jwttoken
-}
-
-
-```
-
-Success ouput example:
-
-```
-{
-  "loghistory":[{
-      "history":{
-      "ip": "140.213.41.203",
-      "range": [
-      2362777600,
-      2362781695
-      ],
-      "country": "ID",
-      "region": "JK",
-      "eu": "0",
-      "timezone": "Asia/Jakarta",
-      "city": "Jakarta",
-      "ll": [
-      -6.1741,
-      106.8296
-      ],
-      "metro": 0,
-      "area": 20
-     },
-    "created_at":time
-  }],
-    "status": 200
-}
 
 ```
